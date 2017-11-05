@@ -1,6 +1,8 @@
 import React from "react";
 import { inject, observer } from "mobx-react";
 
+import Loading from "../atoms/Loading";
+
 @inject("api", "styles")
 @observer
 export default class ShardList extends React.Component {
@@ -8,6 +10,6 @@ export default class ShardList extends React.Component {
     this.props.api.fetchShards();
   }
   render() {
-    return <p>{this.props.api.state}</p>;
+    return <Loading state={this.props.api.state} />;
   }
 }

@@ -1,10 +1,11 @@
 import React from "react";
 import Link from "next/link";
+import { withRouter } from "next/router";
 import styled from "styled-components";
 
 import NavItem from "../atoms/NavItem";
 
-export default class Navigation extends React.Component {
+class Navigation extends React.Component {
   constructor() {
     super();
 
@@ -34,10 +35,31 @@ export default class Navigation extends React.Component {
           className={`navbar-menu ${this.state.active ? "is-active" : null}`}
         >
           <div className="navbar-end">
-            <NavItem text="home" />
-            <NavItem link="heroes" />
-            <NavItem link="stats" />
-            <NavItem link="leaderboards" />
+            <NavItem
+              link=""
+              text="home"
+              active={this.props.router.pathname === "/"}
+            />
+            <NavItem
+              link="heroes"
+              active={this.props.router.pathname === "/heroes"}
+            />
+            <NavItem
+              link="items"
+              active={this.props.router.pathname === "/items"}
+            />
+            <NavItem
+              link="stats"
+              active={this.props.router.pathname === "/stats"}
+            />
+            <NavItem
+              link="tournaments"
+              active={this.props.router.pathname === "/tournaments"}
+            />
+            <NavItem
+              link="leaderboards"
+              active={this.props.router.pathname === "/leaderboards"}
+            />
           </div>
         </div>
       </nav>
@@ -52,3 +74,5 @@ const Button = styled.button`
 const HomeLink = styled.div`
     cursor: pointer;
 `;
+
+export default withRouter(Navigation);

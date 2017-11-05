@@ -2,9 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import Link from "next/link";
 
-export default ({ link, text = link }) => (
-  <Item className="navbar-item">
-    <Link href={`/${link}`}>
+export default ({ active, link, text = link }) => (
+  <Item className="navbar-item" active={active}>
+    <Link prefetch href={`/${link}`}>
       <NavText>{text}</NavText>
     </Link>
   </Item>
@@ -12,8 +12,9 @@ export default ({ link, text = link }) => (
 
 const Item = styled.div`
     cursor: pointer;
+    background: ${props => (props.active ? "rgba(0, 0, 0, 0.075)" : null)};
     &:hover {
-        background: #E9E9E9;
+        background: rgba(0, 0, 0, 0.075);
     }
 `;
 
