@@ -3,7 +3,7 @@ import axios from "axios";
 import { TWITCH_KEY } from "./config";
 
 // const baseURL = "https://api.twitch.tv/helix/streams?game_id=478467";
-const baseURL = "https://api.twitch.tv/kraken/streams/?game=Vainglory&limit=6";
+const baseURL = "https://api.twitch.tv/kraken/streams/?game=Vainglory&limit=9";
 
 class TWITCHAPI {
   constructor() {
@@ -32,6 +32,7 @@ class TWITCHAPI {
       name: v.channel.display_name,
       thumbnail: v.preview.large,
       title: v.channel.status,
+      viewers: v.viewers,
       url: v.channel.url
     }));
   }
