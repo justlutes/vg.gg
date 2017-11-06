@@ -22,14 +22,6 @@ class VGAPI {
     return config;
   }
 
-  setAPIKey(apiKey) {
-    this.apiKey = apiKey;
-  }
-
-  clearAPIKey() {
-    this.apiKey = null;
-  }
-
   get(path, config) {
     return this.axios.get(path, this.transformConfig(config));
   }
