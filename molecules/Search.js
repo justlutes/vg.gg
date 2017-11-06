@@ -5,6 +5,15 @@ import { inject, observer } from "mobx-react";
 @inject("api")
 @observer
 export default class Search extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      region: "na",
+      query: ""
+    };
+  }
+
   render() {
     return (
       <div className="section">
@@ -12,28 +21,35 @@ export default class Search extends React.Component {
           <div className="column is-three-quarters">
             <form>
               <div className="field has-addons has-addons-centered">
-                <p className="control is-large">
+                <p className="control">
                   <input
-                    className="input"
+                    className="input is-medium"
                     type="text"
-                    placeholder="Amount of money"
+                    placeholder="Summoner Name, Hero, Item..."
+                    onChange={event =>
+                      this.setState({ query: event.target.value })}
                   />
                 </p>
                 <p className="control">
-                  <span className="select">
-                    <select>
-                      <option>NA</option>
-                      <option>EU</option>
-                      <option>SA</option>
-                      <option>EA</option>
-                      <option>SG</option>
+                  <span className="select is-medium">
+                    <select
+                      onChange={event =>
+                        this.setState({ region: event.target.value })}
+                    >
+                      <option value="na">NA</option>
+                      <option value="eu">EU</option>
+                      <option value="sa">SA</option>
+                      <option value="ea">EA</option>
+                      <option value="sg">SG</option>
                     </select>
                   </span>
                 </p>
                 <p className="control">
-                  <a className="button is-primary">
-                    Transfer
-                  </a>
+                  <Button className="button is-medium">
+                    <span className="icon is-medium">
+                      <i className="fa fa-search" />
+                    </span>
+                  </Button>
                 </p>
               </div>
             </form>
@@ -43,3 +59,10 @@ export default class Search extends React.Component {
     );
   }
 }
+
+const Button = styled.button`
+    background: #F9C983;
+    &:hover {
+        background: rgba(249, 201, 131, 0.7);
+    }
+`;

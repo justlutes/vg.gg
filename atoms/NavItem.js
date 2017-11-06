@@ -12,7 +12,7 @@ export default ({ active, link, text = link }) => (
 
 const Item = styled.div`
     cursor: pointer;
-    background: ${props => (props.active ? "rgba(0, 0, 0, 0.075)" : null)};
+    border-bottom: ${props => (props.active ? "4px solid #F9C983" : "4px solid transparent")};
     &:hover {
         background: rgba(0, 0, 0, 0.075);
     }
