@@ -2,9 +2,9 @@ import { injectGlobal } from "styled-components";
 
 injectGlobal`
   body {
-      background-color: #d1d1d1;
+      background-color: #245B7E;
   }
   .navbar {
-    background-color: #d1d1d1;
+    background-color: #245B7E;
   }
 `;

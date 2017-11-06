@@ -1,4 +1,5 @@
 import React from "react";
+import Router from "next/router";
 import styled from "styled-components";
 import { inject, observer } from "mobx-react";
 
@@ -19,6 +20,11 @@ export default class Search extends React.Component {
     event.preventDefault();
     const { players, region } = this.state;
     this.props.api.getPlayers(players, region);
+
+    Router.push({
+      pathname: "/stats",
+      query: { players }
+    });
   }
 
   render() {
@@ -68,20 +74,19 @@ export default class Search extends React.Component {
 }
 
 const Button = styled.button`
-    background: #215A7F;
-    color: #F9C983;
-    transition: all 333ms ease-in-out;
-    &:hover {
-        background: rgba(33, 90, 127, 0.8);
-    }
+  background: #f9c983;
+  color: #215a7f;
+  border: none;
+  transition: all 333ms ease-in-out;
+  &:hover {
+    background: rgba(248, 200, 136, 0.7);
+  }
 `;
 
-const Input = styled.input`
-    width: 30vw !important;
-`;
+const Input = styled.input`width: 30vw !important;`;
 
 const Select = styled.span`
-    &::after {
-        border: 1px solid #215A7F;
-    }
+  &::after {
+    border: 1px solid #215a7f;
+  }
 `;

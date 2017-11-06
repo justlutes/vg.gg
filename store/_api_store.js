@@ -6,7 +6,13 @@ useStrict(true);
 class APIStore {
   @observable shards = [];
   @observable player = [];
+  @observable region = "na";
   @observable state = "pending"; // pending / done / error
+
+  @action
+  setRegion(region = "na") {
+    runInAction(() => (this.region = region));
+  }
 
   @action
   async fetchShards() {
@@ -14,8 +20,6 @@ class APIStore {
     this.state = "pending";
     try {
       const shards = await VGAPI.get("/shards/na/matches");
-      //   const filteredShards = somePreprocessing(shards)
-      // after await, modifying state again, needs an actions:
       runInAction(() => {
         this.state = "done";
         this.shards = shards;
@@ -32,8 +36,8 @@ class APIStore {
     this.player = [];
     this.state = "pending";
     const playerString = players.split(" ").join(",");
+
     try {
-      // https://api.dc01.gamelockerapp.com/shards/na/players?filter[playerNames]=player1,player2"
       const playersObject = await VGAPI.get(
         `/shards/${region}/players?filter[playerNames]=${playerString}`
       );

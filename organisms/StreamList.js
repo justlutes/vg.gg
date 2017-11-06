@@ -3,19 +3,19 @@ import styled from "styled-components";
 
 export default ({ name, thumbnail, title, url, viewers }) => (
   <div className="column is-one-third">
-    <Card className="card">
-      <div className="card-image">
-        <a href={url} target="_blank">
+    <a href={url} target="_blank">
+      <Card className="card">
+        <div className="card-image">
           <Figure className="image is-16by9" thumbnail={thumbnail} />
-        </a>
-      </div>
-      <div className="card-content">
-        <Title>{title}</Title>
-        <Subtitle>
-          {viewers} viewers on {name}
-        </Subtitle>
-      </div>
-    </Card>
+        </div>
+        <div className="card-content">
+          <Title>{title}</Title>
+          <Subtitle>
+            {viewers} viewers on {name}
+          </Subtitle>
+        </div>
+      </Card>
+    </a>
   </div>
 );
 

@@ -11,13 +11,15 @@ export default ({ active, link, text = link }) => (
 );
 
 const Item = styled.div`
-    cursor: pointer;
-    border-bottom: ${props => (props.active ? "4px solid #F9C983" : "4px solid transparent")};
-    &:hover {
-        background: rgba(0, 0, 0, 0.075);
-    }
+  cursor: pointer;
+  border-bottom: ${props =>
+    props.active ? "4px solid #F9C983" : "4px solid transparent"};
+  &:hover {
+    background: rgba(0, 0, 0, 0.075);
+  }
 `;
 
 const NavText = styled.span`
-text-transform: uppercase;
+  text-transform: uppercase;
+  color: #ffffff;
 `;

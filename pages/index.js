@@ -24,4 +24,4 @@ export default () => (
   </Provider>
 );
 
-const Hero = styled.div`background: #d1d1d1;`;
+const Hero = styled.div`background: #245b7e;`;
