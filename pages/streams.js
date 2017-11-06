@@ -8,7 +8,7 @@ import ShardList from "../organisms/ShardList";
 export default () => (
   <Provider {...store}>
     <Layout>
-      <h2>Leaderboards</h2>
+      <h2>Streams</h2>
     </Layout>
   </Provider>
 );

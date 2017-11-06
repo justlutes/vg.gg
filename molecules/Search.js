@@ -10,8 +10,15 @@ export default class Search extends React.Component {
 
     this.state = {
       region: "na",
-      query: ""
+      players: ""
     };
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    const { players, region } = this.state;
+    this.props.api.getPlayers(players, region);
   }
 
   render() {
@@ -19,19 +26,19 @@ export default class Search extends React.Component {
       <div className="section">
         <div className="columns is-centered">
           <div className="column is-three-quarters">
-            <form>
+            <form onSubmit={this.handleSubmit}>
               <div className="field has-addons has-addons-centered">
                 <p className="control">
-                  <input
+                  <Input
                     className="input is-medium"
                     type="text"
                     placeholder="Summoner Name, Hero, Item..."
                     onChange={event =>
-                      this.setState({ query: event.target.value })}
+                      this.setState({ players: event.target.value })}
                   />
                 </p>
                 <p className="control">
-                  <span className="select is-medium">
+                  <Select className="select is-medium">
                     <select
                       onChange={event =>
                         this.setState({ region: event.target.value })}
@@ -42,10 +49,10 @@ export default class Search extends React.Component {
                       <option value="ea">EA</option>
                       <option value="sg">SG</option>
                     </select>
-                  </span>
+                  </Select>
                 </p>
                 <p className="control">
-                  <Button className="button is-medium">
+                  <Button type="submit" className="button is-medium">
                     <span className="icon is-medium">
                       <i className="fa fa-search" />
                     </span>
@@ -61,8 +68,20 @@ export default class Search extends React.Component {
 }
 
 const Button = styled.button`
-    background: #F9C983;
+    background: #215A7F;
+    color: #F9C983;
+    transition: all 333ms ease-in-out;
     &:hover {
-        background: rgba(249, 201, 131, 0.7);
+        background: rgba(33, 90, 127, 0.8);
+    }
+`;
+
+const Input = styled.input`
+    width: 30vw !important;
+`;
+
+const Select = styled.span`
+    &::after {
+        border: 1px solid #215A7F;
     }
 `;

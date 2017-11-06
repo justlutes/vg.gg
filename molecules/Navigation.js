@@ -57,8 +57,8 @@ class Navigation extends React.Component {
               active={this.props.router.pathname === "/tournaments"}
             />
             <NavItem
-              link="leaderboards"
-              active={this.props.router.pathname === "/leaderboards"}
+              link="streams"
+              active={this.props.router.pathname === "/streams"}
             />
           </div>
         </div>
@@ -69,6 +69,7 @@ class Navigation extends React.Component {
 
 const Button = styled.button`
     border: none !important;
+    background-color: #D1D1D1 !important;
 `;
 
 const HomeLink = styled.div`

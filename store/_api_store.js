@@ -5,6 +5,7 @@ useStrict(true);
 
 class APIStore {
   @observable shards = [];
+  @observable player = [];
   @observable state = "pending"; // pending / done / error
 
   @action async fetchShards() {
@@ -21,6 +22,27 @@ class APIStore {
     } catch (error) {
       runInAction(() => {
         this.state = "error";
+      });
+    }
+  }
+
+  @action async getPlayers(players, region = "na") {
+    this.player = [];
+    this.state = "pending";
+    console.log(players, region);
+    try {
+      // https://api.dc01.gamelockerapp.com/shards/na/players?filter[playerNames]=player1,player2"
+      const playersObject = await VGAPI.get(
+        `/shards/${region}/players?filter[playerNames]=${players}`
+      );
+      runInAction(() => {
+        this.state = "done";
+        this.player = playersObject;
+      });
+    } catch (error) {
+      runInAction(() => {
+        this.state = "error";
+        console.error(error);
       });
     }
   }
