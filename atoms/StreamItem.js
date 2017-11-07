@@ -22,7 +22,9 @@ export default ({ name, thumbnail, title, url, viewers }) => (
 const Card = styled.div`
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.117647),
     0 1px 4px rgba(0, 0, 0, 0.117647);
+    transition: all 222ms ease-in-out;
   &:hover {
+    transform: translateY(-1px);
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.156863),
       0 3px 10px rgba(0, 0, 0, 0.227451);
   }

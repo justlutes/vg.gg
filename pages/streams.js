@@ -6,16 +6,17 @@ import store from "../store";
 import TWITCHAPI from "../TWITCHAPI";
 
 import Layout from "../layouts/Main";
-import StreamList from "../organisms/StreamList";
+import PageTitle from "../atoms/PageTitle";
+import StreamItem from "../atoms/StreamItem";
 
 const StreamPage = ({ streams }) => (
   <Provider {...store}>
     <Layout>
       <div className="section">
-        <Title>Current Top Twitch Streams</Title>
+        <PageTitle title="Current Vainglory Streams" />
         <div className="columns is-multiline">
           {streams.map(s => (
-            <StreamList
+            <StreamItem
               key={s.name}
               name={s.name}
               thumbnail={s.thumbnail}
@@ -36,10 +37,3 @@ StreamPage.getInitialProps = async ({ req }) => {
 };
 
 export default StreamPage;
-
-const Title = styled.h1`
-  color: #245b7e;
-  text-transform: uppercase;
-  margin-bottom: 20px;
-  font-weight: 700;
-`;

@@ -77,6 +77,7 @@ const Button = styled.button`
   background: #f9c983;
   color: #215a7f;
   border: none;
+  width: 3.5em !important;
   transition: all 333ms ease-in-out;
   &:hover {
     background: rgba(248, 200, 136, 0.7);

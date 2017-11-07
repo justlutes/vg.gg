@@ -3,12 +3,12 @@ import { Provider } from "mobx-react";
 import store from "../store";
 
 import Layout from "../layouts/Main";
-import ShardList from "../organisms/ShardList";
+import PlayerStats from "../organisms/PlayerStats";
 
 export default () => (
   <Provider {...store}>
     <Layout>
-      <h2>Stats</h2>
+      <PlayerStats />
     </Layout>
   </Provider>
 );

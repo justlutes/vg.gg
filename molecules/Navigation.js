@@ -23,14 +23,12 @@ class Navigation extends React.Component {
             </HomeLink>
           </Link>
           <Button
-            className={`button navbar-burger ${this.state.active
-              ? "is-active"
-              : null}`}
+            className={`button navbar-burger ${this.state.active ? "is-active" : null}`}
             onClick={() => this.setState({ active: !this.state.active })}
           >
-            <span />
-            <span />
-            <span />
+            <Line />
+            <Line />
+            <Line />
           </Button>
         </div>
         <div
@@ -75,5 +73,9 @@ const Button = styled.button`
 `;
 
 const HomeLink = styled.div`cursor: pointer;`;
+
+const Line = styled.span`
+  background-color: #fff !important;
+`;
 
 export default withRouter(Navigation);
