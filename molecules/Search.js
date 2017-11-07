@@ -1,29 +1,34 @@
-import React from "react";
-import Router from "next/router";
-import styled from "styled-components";
-import { inject, observer } from "mobx-react";
+import React from 'react';
+import Router from 'next/router';
+import styled from 'styled-components';
+import { inject, observer } from 'mobx-react';
 
-@inject("api")
+@inject('store')
 @observer
 export default class Search extends React.Component {
   constructor() {
     super();
 
     this.state = {
-      region: "na",
-      players: ""
+      players: '',
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    const { players, region } = this.state;
-    this.props.api.getPlayers(players, region);
+    let { players } = this.state;
+    if (players.indexOf(',') === -1) {
+      players = players.split(' ').join(',');
+    }
+    players = players.trim();
 
     Router.push({
-      pathname: "/stats",
-      query: { players }
+      pathname: '/stats',
+      query: {
+        players,
+        region: this.props.store.region,
+      },
     });
   }
 
@@ -47,7 +52,7 @@ export default class Search extends React.Component {
                   <Select className="select is-medium">
                     <select
                       onChange={event =>
-                        this.setState({ region: event.target.value })}
+                        this.props.store.setRegion(event.target.value)}
                     >
                       <option value="na">NA</option>
                       <option value="eu">EU</option>

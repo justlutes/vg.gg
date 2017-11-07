@@ -1,14 +1,37 @@
-import React from "react";
-import { inject, observer } from "mobx-react";
+import React from 'react';
+import { inject, observer } from 'mobx-react';
 
-@inject("api", "styles")
+import PlayerCard from '../molecules/PlayerCard';
+import Loading from '../atoms/Loading';
+
+@inject('store')
 @observer
 export default class PlayerState extends React.Component {
-  //   componentWillMount() {
-  //     const stats = this.props.api.formatPlayers;
-  //     console.log(stats);
-  //   }
+  constructor() {
+    super();
+
+    this.state = {
+      players: [],
+    };
+  }
+  componentWillMount() {
+    this.props.store
+      .getPlayers(this.props.players, this.props.region)
+      .then(() => {
+        const players = this.props.store.formatPlayers;
+        this.setState({ players });
+      });
+  }
   render() {
-    return <div><p>Stats</p></div>;
+    if (this.state.players.length === 0) {
+      return <Loading state="pending" />;
+    }
+    return (
+      <div>
+        {this.state.players.map(player => (
+          <PlayerCard key={player.name} {...player} />
+        ))}
+      </div>
+    );
   }
 }
