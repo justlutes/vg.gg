@@ -1,16 +1,16 @@
-import React from "react";
-import Link from "next/link";
-import { withRouter } from "next/router";
-import styled from "styled-components";
+import React from 'react';
+import Link from 'next/link';
+import { withRouter } from 'next/router';
+import styled from 'styled-components';
 
-import NavItem from "../atoms/NavItem";
+import NavItem from '../atoms/NavItem';
 
 class Navigation extends React.Component {
   constructor() {
     super();
 
     this.state = {
-      active: false
+      active: false,
     };
   }
   render() {
@@ -23,7 +23,9 @@ class Navigation extends React.Component {
             </HomeLink>
           </Link>
           <Button
-            className={`button navbar-burger ${this.state.active ? "is-active" : null}`}
+            className={`button navbar-burger ${this.state.active
+              ? 'is-active'
+              : null}`}
             onClick={() => this.setState({ active: !this.state.active })}
           >
             <Line />
@@ -32,33 +34,29 @@ class Navigation extends React.Component {
           </Button>
         </div>
         <div
-          className={`navbar-menu ${this.state.active ? "is-active" : null}`}
+          className={`navbar-menu ${this.state.active ? 'is-active' : null}`}
         >
           <div className="navbar-end">
             <NavItem
               link=""
               text="home"
-              active={this.props.router.pathname === "/"}
+              active={this.props.router.pathname === '/'}
             />
             <NavItem
               link="heroes"
-              active={this.props.router.pathname === "/heroes"}
+              active={this.props.router.pathname === '/heroes'}
             />
             <NavItem
               link="items"
-              active={this.props.router.pathname === "/items"}
-            />
-            <NavItem
-              link="stats"
-              active={this.props.router.pathname === "/stats"}
+              active={this.props.router.pathname === '/items'}
             />
             <NavItem
               link="tournaments"
-              active={this.props.router.pathname === "/tournaments"}
+              active={this.props.router.pathname === '/tournaments'}
             />
             <NavItem
               link="streams"
-              active={this.props.router.pathname === "/streams"}
+              active={this.props.router.pathname === '/streams'}
             />
           </div>
         </div>
@@ -69,13 +67,11 @@ class Navigation extends React.Component {
 
 const Button = styled.button`
   border: none !important;
-  background-color: #245b7e !important;
+  background-color: transparent !important;
 `;
 
 const HomeLink = styled.div`cursor: pointer;`;
 
-const Line = styled.span`
-  background-color: #fff !important;
-`;
+const Line = styled.span`background-color: #fff !important;`;
 
 export default withRouter(Navigation);

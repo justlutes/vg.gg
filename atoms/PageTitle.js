@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 export default ({ title }) => <Title>{title}</Title>;
 
@@ -7,7 +7,7 @@ const Title = styled.h1`
 position: relative;
 color: #fff;
 text-transform: uppercase;
-font-size: 20px;
+font-size: 25px;
 margin-bottom: 20px;
 font-weight: 700;
 &::after {

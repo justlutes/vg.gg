@@ -37,4 +37,8 @@ export default class Home extends React.Component {
   }
 }
 
-const Hero = styled.div`background: #245b7e;`;
+const Hero = styled.div`
+  background: #304352;
+  background: -webkit-linear-gradient(bottom right, #304352, #162851);
+  background: -moz-linear-gradient(bottom right, #304352, #162851);
+`;

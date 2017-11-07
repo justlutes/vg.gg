@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import Link from "next/link";
+import React from 'react';
+import styled from 'styled-components';
+import Link from 'next/link';
 
-import FooterLink from "../atoms/FooterLink";
+import FooterLink from '../atoms/FooterLink';
 
 const FooterSocial = ({ href, icon }) => (
   <div className="column">

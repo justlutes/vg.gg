@@ -1,7 +1,9 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
-export default ({ name, thumbnail, title, url, viewers }) => (
+export default ({
+  name, thumbnail, title, url, viewers,
+}) => (
   <div className="column is-one-third">
     <a href={url} target="_blank">
       <Card className="card">
@@ -20,24 +22,30 @@ export default ({ name, thumbnail, title, url, viewers }) => (
 );
 
 const Card = styled.div`
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.117647),
-    0 1px 4px rgba(0, 0, 0, 0.117647);
-    transition: all 222ms ease-in-out;
+  box-shadow: 0 6px 37px -6px rgba(0, 0, 0, 0.2);
+  transition: 310ms ease-in-out;
+  border-radius: 25px;
+  padding: 50px 5% 50px 5%;
+  margin: 20px 1%;
   &:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.156863),
-      0 3px 10px rgba(0, 0, 0, 0.227451);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 37px -6px rgba(0, 0, 0, 0.6);
   }
 `;
 
-const Figure = styled.figure`background: url(${props => props.thumbnail});`;
+const Figure = styled.figure`
+  background: url(${props => props.thumbnail});
+  border-radius: 5px;
+`;
 
 const Subtitle = styled.p`
   color: #6a6a6a;
-  font-size: 12px;
+  font-size: 14px;
 `;
 
-const Title = styled.p`
+const Title = styled.h2`
+  font-size: 18px;
+  margin-top: 15px;
   font-weight: bold;
   white-space: nowrap;
   overflow: hidden;
