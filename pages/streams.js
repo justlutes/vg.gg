@@ -1,34 +1,30 @@
-import React from "react";
-import { Provider } from "mobx-react";
-import styled from "styled-components";
-import store from "../store";
+import React from 'react';
+import styled from 'styled-components';
 
-import TWITCHAPI from "../TWITCHAPI";
+import TWITCHAPI from '../TWITCHAPI';
 
-import Layout from "../layouts/Main";
-import PageTitle from "../atoms/PageTitle";
-import StreamItem from "../atoms/StreamItem";
+import Layout from '../layouts/Main';
+import PageTitle from '../atoms/PageTitle';
+import StreamItem from '../atoms/StreamItem';
 
 const StreamPage = ({ streams }) => (
-  <Provider {...store}>
-    <Layout>
-      <div className="section">
-        <PageTitle title="Current Vainglory Streams" />
-        <div className="columns is-multiline">
-          {streams.map(s => (
-            <StreamItem
-              key={s.name}
-              name={s.name}
-              thumbnail={s.thumbnail}
-              title={s.title}
-              viewers={s.viewers}
-              url={s.url}
-            />
-          ))}
-        </div>
+  <Layout>
+    <div className="section">
+      <PageTitle title="Current Vainglory Streams" />
+      <div className="columns is-multiline">
+        {streams.map(s => (
+          <StreamItem
+            key={s.name}
+            name={s.name}
+            thumbnail={s.thumbnail}
+            title={s.title}
+            viewers={s.viewers}
+            url={s.url}
+          />
+        ))}
       </div>
-    </Layout>
-  </Provider>
+    </div>
+  </Layout>
 );
 
 StreamPage.getInitialProps = async ({ req }) => {
