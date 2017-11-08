@@ -19,12 +19,14 @@ class Store {
     this.region = region;
   }
 
-  @action setRegion(region) {
+  @action
+  setRegion(region) {
     vainglory.setRegion(region);
     this.region = region;
   }
 
-  @action async fetchShards() {
+  @action
+  async fetchShards() {
     this.shards = [];
     this.state = 'pending';
     try {
@@ -40,7 +42,8 @@ class Store {
     }
   }
 
-  @action async getPlayers(players, region = 'na') {
+  @action
+  async getPlayers(players, region = 'na') {
     this.state = 'pending';
     this.player = {};
     let playerData = '';
@@ -73,7 +76,8 @@ class Store {
     }
   }
 
-  @computed get formatPlayers() {
+  @computed
+  get formatPlayers() {
     const { player = [] } = this.player;
 
     return player.map(p => ({
