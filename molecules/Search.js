@@ -18,10 +18,6 @@ export default class Search extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     let { players } = this.state;
-    if (players.indexOf(',') === -1) {
-      players = players.split(' ').join(',');
-    }
-    players = players.trim();
 
     Router.push({
       pathname: '/stats',

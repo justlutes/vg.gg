@@ -1,11 +1,11 @@
-import React from 'react';
-import { Provider } from 'mobx-react';
-import { initStore } from '../serverstore';
-import styled from 'styled-components';
+import React from "react";
+import { Provider } from "mobx-react";
+import { initStore } from "../store";
+import styled from "styled-components";
 
-import Landing from '../layouts/Landing';
-import Navigation from '../molecules/Navigation';
-import Search from '../molecules/Search';
+import Landing from "../layouts/Landing";
+import Navigation from "../molecules/Navigation";
+import Search from "../molecules/Search";
 
 export default class Home extends React.Component {
   static getInitialProps({ req }) {

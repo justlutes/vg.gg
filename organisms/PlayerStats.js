@@ -30,11 +30,15 @@ export default class PlayerState extends React.Component {
     return (
       <div className="section">
         <PageTitle
-          title={`Stats for ${this.props.players.replace(',', 'and')}`}
+          title={`Stats for ${this.props.players.replace(',', ' and')}`}
         />
         <div className="columns is-multiline is-centered">
           {this.state.players.map(player => (
-            <PlayerCard key={player.name} {...player} />
+            <PlayerCard
+              key={player.name}
+              {...player}
+              region={this.props.region}
+            />
           ))}
         </div>
       </div>

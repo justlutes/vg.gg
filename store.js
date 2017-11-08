@@ -2,6 +2,9 @@ import { action, computed, runInAction, observable, useStrict } from 'mobx';
 import Router from 'next/router';
 import VGAPI from './VGAPI';
 
+import { API_KEY } from './config';
+
+const vainglory = new VGAPI(API_KEY);
 let store = null;
 
 class Store {
@@ -16,13 +19,12 @@ class Store {
     this.region = region;
   }
 
-  @action
-  setRegion(region) {
+  @action setRegion(region) {
+    vainglory.setRegion(region);
     this.region = region;
   }
 
-  @action
-  async fetchShards() {
+  @action async fetchShards() {
     this.shards = [];
     this.state = 'pending';
     try {
@@ -38,16 +40,25 @@ class Store {
     }
   }
 
-  @action
-  async getPlayers(players, region = 'na') {
+  @action async getPlayers(players, region = 'na') {
     this.state = 'pending';
     this.player = {};
     let playerData = '';
+    let playerNames = [];
+
+    if (players.indexOf(',') > -1) {
+      playerNames = players.split(',').map(p => p.replace(',', '').trim());
+    } else if (players.indexOf(' ') > -1) {
+      playerNames = players.split(' ');
+    } else {
+      playerNames.push(players);
+    }
 
     try {
-      playerData = await VGAPI.get(`/shards/${region}/players?filter[playerNames]=${players}`);
-      if (playerData.status !== 200) {
-        throw 'No user found';
+      playerData = await vainglory.players.getByName(playerNames);
+
+      if (playerData.errors) {
+        throw playerData.statusText;
       }
       runInAction(() => {
         this.state = 'done';
@@ -62,20 +73,18 @@ class Store {
     }
   }
 
-  @computed
-  get formatPlayers() {
-    const { data } = this.player;
-    const playerData = data.data || [];
+  @computed get formatPlayers() {
+    const { player = [] } = this.player;
 
-    return playerData.map(d => ({
-      name: d.attributes.name,
-      level: d.attributes.level,
-      karma: d.attributes.karma,
-      elo: d.attributes.stats.elo_earned_season_7,
-      wins: d.attributes.stats.wins,
-      skillTier: d.attributes.stats.skillTier,
-      winStreak: d.attributes.stats.winStreak,
-      xp: d.attributes.stats.xp,
+    return player.map(p => ({
+      name: p.name,
+      level: p.stats.level,
+      karma: p.stats.karma,
+      elo: p.stats.elo_earned_season_7,
+      wins: p.stats.wins,
+      skillTier: p.stats.skillTier,
+      winStreak: p.stats.winStreak,
+      xp: p.stats.xp,
     }));
   }
 }
