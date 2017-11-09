@@ -37,10 +37,18 @@ class Store {
     }
   }
 
-  @action async fetchMatches() {
+  @action async fetchRecentMatch() {
+    const options = {
+      page: {
+        limit: 1,
+      },
+      filter: {
+        gameMode: 'ranked',
+      },
+    };
     try {
-      const matchData = await vainglory.matches.collection();
-      console.log(matchData);
+      let matchData = await vainglory.matches.collection(options);
+      return matchData.match;
     } catch (error) {
       console.log(error);
     }
