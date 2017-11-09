@@ -33,24 +33,20 @@ export default class PlayerStats extends React.Component {
       return (
         <div className="section">
           <TitleBar title="Player Stats" />
-          <div className="columns is-multiline is-centered">
-            <Loading loading={this.state.loading} />
-          </div>
+          <Loading loading={this.state.loading} />
         </div>
       );
     }
     return (
       <div className="section">
         <TitleBar title={`Player Stats - ${this.state.players[0].name}`} />
-        <div className="columns is-multiline is-centered">
-          {this.state.players.map(player => (
-            <PlayerCard
-              key={player.name}
-              {...player}
-              region={this.props.region}
-            />
-          ))}
-        </div>
+        {this.state.players.map(player => (
+          <PlayerCard
+            key={player.name}
+            {...player}
+            region={this.props.region}
+          />
+        ))}
       </div>
     );
   }

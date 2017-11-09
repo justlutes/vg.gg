@@ -2,9 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 
 export default ({ title }) => (
-  <Wrapper>
-    <Title>{title}</Title>
-    <Options>
+  <Wrapper className="columns">
+    <Title className="column is-9">{title}</Title>
+    <Options className="column is-3">
       <Option>Match History</Option>
       <Option>Heroes</Option>
       <Option>Teams</Option>
@@ -44,12 +44,7 @@ const Title = styled.h1`
 `;
 
 const Wrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
   align-items: center;
-  padding: 10px;
   background: #f9c983;
   border-radius: 5px;
-  margin-bottom: 10px;
 `;
