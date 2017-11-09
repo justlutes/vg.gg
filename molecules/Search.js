@@ -17,7 +17,7 @@ export default class Search extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    let { players } = this.state;
+    const { players } = this.state;
 
     Router.push({
       pathname: '/stats',

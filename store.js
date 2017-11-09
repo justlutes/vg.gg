@@ -4,6 +4,7 @@ import VGAPI from './VGAPI';
 
 import { API_KEY } from './config';
 
+useStrict(true);
 const vainglory = new VGAPI(API_KEY);
 let store = null;
 
@@ -21,12 +22,14 @@ class Store {
     this.region = region;
   }
 
-  @action setRegion(region) {
+  @action
+  setRegion(region) {
     vainglory.setRegion(region);
     this.region = region;
   }
 
-  @action async fetchProMatches() {
+  @action
+  async fetchProMatches() {
     try {
       const matchData = await vainglory.tournament
         .region('na')
@@ -37,7 +40,8 @@ class Store {
     }
   }
 
-  @action async fetchRecentMatch() {
+  @action
+  async fetchRecentMatch() {
     const options = {
       page: {
         limit: 1,
@@ -47,30 +51,27 @@ class Store {
       },
     };
     try {
-      let matchData = await vainglory.matches.collection(options);
+      const matchData = await vainglory.matches.collection(options);
       return matchData.match;
     } catch (error) {
       console.log(error);
     }
   }
 
-  @action async getPlayers(players, region = 'na') {
+  @action
+  async getPlayers(players, region = 'na') {
+    vainglory.setRegion(region);
+    this.region = region;
     this.state = 'pending';
     this.player = {};
     let playerData = '';
-    let playerNames = [];
+    const playerNames = [];
 
-    if (players.indexOf(',') > -1) {
-      playerNames = players.split(',').map(p => p.replace(',', '').trim());
-    } else if (players.indexOf(' ') > -1) {
-      playerNames = players.split(' ');
-    } else {
-      playerNames.push(players);
-    }
+    const [playerName] = players.split(' ');
+    playerNames.push(playerName);
 
     try {
       playerData = await vainglory.players.getByName(playerNames);
-
       if (playerData.errors) {
         throw playerData.statusText;
       }
@@ -87,14 +88,23 @@ class Store {
     }
   }
 
-  @computed get formatPlayers() {
+  @computed
+  get formatPlayers() {
     const { player = [] } = this.player;
 
     return player.map(p => ({
       name: p.name,
       level: p.stats.level,
-      karma: p.stats.karma,
-      elo: p.stats.elo_earned_season_7,
+      karma: p.stats.karmaLevel,
+      gold: p.stats.lifetimeGold.toFixed(2),
+      rankedGames: p.stats.played_ranked,
+      played: p.stats.played,
+      elo: Object.keys(p.stats)
+        .filter(stat => stat.includes('elo_earned'))
+        .map(s => ({
+          season: s.substring(s.indexOf('season'), s.length).replace('_', ' '),
+          amount: p.stats[s],
+        })),
       wins: p.stats.wins,
       skillTier: p.stats.skillTier,
       winStreak: p.stats.winStreak,
@@ -103,7 +113,7 @@ class Store {
   }
 }
 
-export function initStore(
+export default function (
   isServer,
   region = 'na',
   player = {},

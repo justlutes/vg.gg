@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'mobx-react';
-import { initStore } from '../store';
+import initStore from '../store';
 
 import Layout from '../layouts/Main';
 import PlayerStats from '../organisms/PlayerStats';

@@ -1,123 +1,113 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import EloGraph from '../atoms/EloGraph';
+
 export default ({
-  elo, name, skillTier, winStreak, wins, xp,
+  elo,
+  gold,
+  karma,
+  level,
+  played,
+  rankedGames,
+  skillTier,
+  winStreak,
+  wins,
+  xp,
 }) => (
-  <div className="column is-half">
-    <Card>
-      <Header>
-        <svg viewBox="0 0 500 500" preserveAspectRatio="xMinYMin meet">
-          <Path d="M0,100 C150,200 350,0 500,100 L500,00 L0,0 Z" />
-        </svg>
-        <UserName>
-          <h1>{name}</h1>
-        </UserName>
-      </Header>
-      <Stats>
-        <List>
-          <ListItemLeft>
-            <p>Current Season</p>
-            <Stat>ELO - {elo}</Stat>
-          </ListItemLeft>
-          <ListItemLeft>
-            <p>Winstreak</p>
-            <Stat>{winStreak}</Stat>
-          </ListItemLeft>
-        </List>
-        <List>
-          <ListItem>
-            <Stat>{skillTier.substring(0, skillTier.indexOf('-'))}</Stat>
-            <p>Skill Tier</p>
-          </ListItem>
-          <ListItem>
-            <Stat>{wins}</Stat>
-            <p>Total Wins</p>
-          </ListItem>
-          <ListItem>
-            <Stat>{xp}</Stat>
-            <p>XP</p>
-          </ListItem>
-        </List>
-      </Stats>
-    </Card>
+  <div className="column">
+    <Row>
+      <Block>
+        <Inner>
+          <div>
+            <p>{skillTier}</p>
+            <Stat>Skill Tier</Stat>
+          </div>
+          <div>
+            <p>{winStreak}</p>
+            <Stat>Winstreak</Stat>
+          </div>
+        </Inner>
+        <Inner>
+          <div>
+            <p>{karma}</p>
+            <Stat>Karma</Stat>
+          </div>
+          <div>
+            <p>{wins}</p>
+            <Stat>Total Wins</Stat>
+          </div>
+          <div>
+            <p>{xp}</p>
+            <Stat>XP</Stat>
+          </div>
+        </Inner>
+      </Block>
+      <EloGraph elo={elo} />
+      <Block>
+        <Inner>
+          <div>
+            <p>ELO - {elo[elo.length - 1].amount}</p>
+            <Stat>Current Season</Stat>
+          </div>
+          <div>
+            <p>{rankedGames}</p>
+            <Stat>Ranked Games</Stat>
+          </div>
+        </Inner>
+        <Inner>
+          <div>
+            <p>{played}</p>
+            <Stat>Games Played</Stat>
+          </div>
+          <div>
+            <p>{gold}</p>
+            <Stat>Gold Earned</Stat>
+          </div>
+          <div>
+            <p>{level}</p>
+            <Stat>Account Level</Stat>
+          </div>
+        </Inner>
+      </Block>
+    </Row>
   </div>
 );
 
-const Card = styled.div`
-  position: relative;
+const Row = styled.div`
   display: flex;
-  border-radius: 5px;
-  flex-direction: column;
   width: 100%;
-  height: 400px;
-  box-shadow: 0 6px 37px -6px rgba(0, 0, 0, 0.2);
-  background: #e6e9f0;
-  background: -webkit-linear-gradient(top left, #e6e9f0, #eef1f5);
-  background: -moz-linear-gradient(top left, #e6e9f0, #eef1f5);
-  background: linear-gradient(top left, #e6e9f0, #eef1f5);
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  background: #383838;
+  padding: 15px;
 `;
 
-const Header = styled.div`
-  position: relative;
-  width: 100%;
-  height: 50%;
-  border-radius: 5px 5px 0 0;
-  vertical-align: middle;
+const Block = styled.div`
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #6a6a6a;
+  width: 32%;
+  height: 195px;
   overflow: hidden;
-  display: inline-block;
+  justify-content: space-around;
 `;
 
-const List = styled.ul`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  &:nth-of-type(1) {
-    margin-right: 10%;
-  }
-`;
-
-const ListItem = styled.li`
+const Inner = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
   align-items: center;
-`;
-
-const ListItemLeft = ListItem.extend`
-  flex-direction: column;
-  align-items: flex-start;
-`;
-
-const Path = styled.path`
-  stroke: none;
-  fill: #f9c983;
+  justify-content: space-around;
+  text-align: center;
+  margin-top: 15px;
+  color: #e9e9e9;
+  font-size: 12px;
 `;
 
 const Stat = styled.p`
   font-weight: 700;
   font-family: 'Bebas Neue', sans-serif !important;
-  color: #383838;
-  font-size: 25px;
-  margin-right: 10px;
-`;
-
-const Stats = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-start;
-  width: 65%;
-  margin: 0 0 0 auto;
-`;
-
-const UserName = styled.div`
-  font-size: 40px;
-  color: white;
-  position: absolute;
-  top: 20px;
-  left: 50%;
-
-  text-align: center;
-  text-transform: uppercase;
+  color: #6a6a6a;
+  font-size: 14px;
 `;

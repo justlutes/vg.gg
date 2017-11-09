@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
-export default ({ state = "" }) => (
-  <Loader>
+export default ({ loading = false }) => (
+  <Loader loading={loading}>
     <svg
       version="1.1"
       id="Layer_1"
@@ -97,15 +97,13 @@ export default ({ state = "" }) => (
 );
 
 const Loader = styled.div`
-position: absolute;
-top: 50vh;
-left: 50%;
-height: auto;
-width: auto;
-padding: 1em;
-display: ${props => (props.state === "pending" ? "inline-block" : "none")};
+  position: absolute;
+  top: 50vh;
+  left: 50%;
+  height: auto;
+  width: auto;
+  padding: 1em;
+  display: ${props => (props.loading ? 'inline-block' : 'none')};
 `;
 
-const Rect = styled.rect`
-    fill: #F9C983;
-`;
+const Rect = styled.rect`fill: #f9c983;`;

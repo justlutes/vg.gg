@@ -2,7 +2,7 @@ import React from 'react';
 import { Provider } from 'mobx-react';
 import styled from 'styled-components';
 
-import { initStore } from '../store';
+import initStore from '../store';
 import Landing from '../layouts/Landing';
 import MatcheFeed from '../organisms/MatchFeed';
 import Navigation from '../molecules/Navigation';
