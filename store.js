@@ -8,42 +8,45 @@ const vainglory = new VGAPI(API_KEY);
 let store = null;
 
 class Store {
-  @observable shards = [];
+  @observable matches = {};
+  @observable proMatches = {};
   @observable player = {};
   @observable region = 'na';
   @observable state = 'pending'; // pending / done / error
 
-  constructor(isServer, region, player) {
+  constructor(isServer, region, player, matches, proMatches) {
     this.player = player;
-    this.shards = [];
+    this.matches = matches;
+    this.proMatches = proMatches;
     this.region = region;
   }
 
-  @action
-  setRegion(region) {
+  @action setRegion(region) {
     vainglory.setRegion(region);
     this.region = region;
   }
 
-  @action
-  async fetchShards() {
-    this.shards = [];
-    this.state = 'pending';
+  @action async fetchProMatches() {
     try {
-      const shards = await VGAPI.get('/shards/na/matches');
-      runInAction(() => {
-        this.state = 'done';
-        this.shards = shards;
-      });
+      const matchData = await vainglory.tournament
+        .region('na')
+        .matches.collection();
+      console.log('t', matchData);
     } catch (error) {
-      runInAction(() => {
-        this.state = 'error';
-      });
+      console.log(error);
     }
   }
 
-  @action
-  async getPlayers(players, region = 'na') {
+  @action async fetchMatches() {
+    try {
+      const matchData = await vainglory.matches.collection();
+      console.log(matchData);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  @action async getPlayers(players, region = 'na') {
     this.state = 'pending';
     this.player = {};
     let playerData = '';
@@ -76,8 +79,7 @@ class Store {
     }
   }
 
-  @computed
-  get formatPlayers() {
+  @computed get formatPlayers() {
     const { player = [] } = this.player;
 
     return player.map(p => ({
@@ -93,12 +95,18 @@ class Store {
   }
 }
 
-export function initStore(isServer, region = 'na', player = {}) {
+export function initStore(
+  isServer,
+  region = 'na',
+  player = {},
+  matches = {},
+  proMatches = {},
+) {
   if (isServer) {
-    return new Store(isServer, region, player);
+    return new Store(isServer, region, player, matches, proMatches);
   }
   if (store === null) {
-    store = new Store(isServer, region, player);
+    store = new Store(isServer, region, player, matches, proMatches);
   }
   return store;
 }

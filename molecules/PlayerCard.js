@@ -61,7 +61,7 @@ const Card = styled.div`
 const Header = styled.div`
   position: relative;
   width: 100%;
-  height: 150px;
+  height: 50%;
   border-radius: 5px 5px 0 0;
   vertical-align: middle;
   overflow: hidden;
@@ -115,7 +115,7 @@ const UserName = styled.div`
   font-size: 40px;
   color: white;
   position: absolute;
-  top: 13px;
+  top: 20px;
   left: 50%;
 
   text-align: center;
