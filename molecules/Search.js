@@ -1,54 +1,25 @@
 import React from 'react';
 import Router from 'next/router';
 import styled from 'styled-components';
-import { inject, observer } from 'mobx-react';
 
-@inject('store')
-@observer
-export default class Search extends React.Component {
-  constructor() {
-    super();
-
-    this.state = {
-      players: '',
-    };
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleSubmit(event) {
-    event.preventDefault();
-    const { players } = this.state;
-
-    Router.push({
-      pathname: '/stats',
-      query: {
-        players,
-        region: this.props.store.region,
-      },
-    });
-  }
-
-  render() {
-    return (
+export default ({ handlePlayer, handleRegion, handleSubmit }) => (
       <div className="section">
         <div className="columns is-centered">
           <div className="column is-three-quarters">
-            <form onSubmit={this.handleSubmit}>
+            <form onSubmit={handleSubmit}>
               <div className="field has-addons has-addons-centered">
                 <p className="control">
                   <Input
                     className="input is-medium"
                     type="text"
                     placeholder="Summoner Name, Hero, Item..."
-                    onChange={event =>
-                      this.setState({ players: event.target.value })}
+                    onChange={event => handlePlayer(event.target.value)}
                   />
                 </p>
                 <p className="control">
                   <Select className="select is-medium">
                     <select
-                      onChange={event =>
-                        this.props.store.setRegion(event.target.value)}
+                      onChange={event => handleRegion(event.target.value)}
                     >
                       <option value="na">NA</option>
                       <option value="eu">EU</option>
@@ -71,8 +42,6 @@ export default class Search extends React.Component {
         </div>
       </div>
     );
-  }
-}
 
 const Button = styled.button`
   background: #f9c983;

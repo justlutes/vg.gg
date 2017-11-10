@@ -1,31 +1,63 @@
 import React from 'react';
-import { Provider } from 'mobx-react';
-import initStore from '../store';
+import io from 'socket.io-client';
+import fetch from 'isomorphic-unfetch';
+import Link from 'next/link';
 
 import Layout from '../layouts/Main';
 import PlayerStats from '../organisms/PlayerStats';
 
 export default class Stats extends React.Component {
-  static getInitialProps({ query, req }) {
-    const isServer = !!req;
-    const store = initStore(isServer);
-    return { region: query.region, isServer, players: query.players };
+  static async getInitialProps({ req }) {
+    const response = await fetch('http://localhost:3000/api/stats')
+    const stats = await response.json();
+    return { stats };
   }
   constructor(props) {
     super(props);
 
-    this.store = initStore(props.isServer, props.region, props.players);
+    this.state = {
+      stats: props.stats,
+    }
   }
+
+  componentDidMount () {
+    this.socket = io()
+    this.socket.on('stats', this.handleStats)
+  }
+
+  componentWillUnmount () {
+    this.socket.off('stats', this.handleStats)
+    this.socket.close()
+  }
+
+  handleStats = (stats) => {
+    this.setState(state => ({ stats: state.stats.body }))
+  }
+
+  renderChildren = () => {
+    if (this.props.stats.status !== 200) {
+      return (
+        <div className="section">
+          <div className="columns is-centered is-multiline">
+            <div className="column is-half has-text-centered">
+              <h1 className="has-text-white">Oops!</h1>
+              <p className="has-text-grey-light">{this.state.stats.error}</p>
+              <Link href="/"><a>Back</a></Link>
+            </div>
+          </div>
+        </div>
+      )
+    }
+    return (
+      <PlayerStats stats={this.state.stats.body} />
+    )
+  }
+
   render() {
     return (
-      <Provider store={this.store}>
         <Layout>
-          <PlayerStats
-            region={this.props.region}
-            players={this.props.players}
-          />
+          {this.renderChildren()}
         </Layout>
-      </Provider>
     );
   }
 }

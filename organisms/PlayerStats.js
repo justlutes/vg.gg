@@ -1,32 +1,23 @@
 import React from 'react';
-import { inject, observer } from 'mobx-react';
 
 import PlayerCard from '../molecules/PlayerCard';
 import TitleBar from '../atoms/TitleBar';
 import Loading from '../atoms/Loading';
 
-@inject('store')
-@observer
 export default class PlayerStats extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
-      players: [],
+      players: props.stats,
       loading: false,
     };
   }
   componentWillMount() {
     this.setState({ loading: true });
-    this.props.store
-      .getPlayers(this.props.players, this.props.region)
-      .then(() => {
-        const players = this.props.store.formatPlayers;
-        setTimeout(() => {
-          this.setState({ loading: false });
-        }, 1000);
-        this.setState({ players });
-      });
+    setTimeout(() => {
+      this.setState({ loading: false });
+    }, 1000);
   }
   render() {
     if (this.state.loading) {
