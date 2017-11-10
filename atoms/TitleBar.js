@@ -1,13 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 
-export default ({ title }) => (
+export default ({ title, options = [] }) => (
   <Wrapper className="columns">
     <Title className="column is-9">{title}</Title>
-    <Options className="column is-3">
-      <Option>Match History</Option>
-      <Option>Heroes</Option>
-      <Option>Teams</Option>
+    <Options className={`column is-3 is-offset-${2 - options.length}`}>
+      {options.map(o => (
+        <Option key={o.text} onClick={() => o.callback()}>
+          {o.text}
+        </Option>
+      ))}
     </Options>
   </Wrapper>
 );
@@ -16,7 +18,7 @@ const Option = styled.li`
   background: rgba(0, 0, 0, 0.15);
   cursor: pointer;
   padding: 2px 14px;
-  margin: 8px 4px;
+  margin: 8px 3px;
   border-radius: 14px;
   font-size: 12px;
   color: #fff;

@@ -20,6 +20,21 @@ export default class PlayerStats extends React.Component {
     }, 1000);
   }
   render() {
+    const options = [
+      {
+        text: 'Matches',
+        callback: () => console.log('matches'),
+      },
+      {
+        text: 'Heroes',
+        callback: () => console.log('heroes'),
+      },
+      {
+        text: 'Teams',
+        callback: () => console.log('teams'),
+      },
+    ];
+
     if (this.state.loading) {
       return (
         <div className="section">
@@ -30,7 +45,10 @@ export default class PlayerStats extends React.Component {
     }
     return (
       <div className="section">
-        <TitleBar title={`Player Stats - ${this.state.players[0].name}`} />
+        <TitleBar
+          title={`Player Stats - ${this.state.players[0].name}`}
+          options={options}
+        />
         {this.state.players.map(player => (
           <PlayerCard
             key={player.name}

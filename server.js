@@ -5,6 +5,7 @@ const next = require('next');
 const VGAPI = require('vainglory');
 
 if (process.env.NODE_ENV !== 'production') {
+  // eslint-disable-next-line
   require('dotenv').load();
 }
 const port = parseInt(process.env.PORT, 10) || 3000;
@@ -12,52 +13,12 @@ const dev = process.env.NODE_ENV !== 'production';
 const nextApp = next({ dev });
 const nextHandler = nextApp.getRequestHandler();
 
-// fake DB
-const matches = [];
 let region = 'na';
 const players = [];
 let stats = [];
 const vainglory = new VGAPI(process.env.API_KEY);
 
-// socket.io server
-io.on('connection', socket => {
-  setInterval(() => pollMatchApi(socket), 1000*60*10);
-
-  socket.on('matches', data => {
-    matches.push(data);
-    socket.broadcast.emit('matches', data);
-  });
-
-  socket.on('region', data => {
-    region = data;
-    vainglory.setRegion(region);
-    socket.broadcast.emit('region', data);
-  });
-
-  socket.on('player', data => {
-    players.push(data);
-    socket.broadcast.emit('player', data);
-  })
-
-  socket.on('stats', data => {
-    stats = data;
-    socket.broadcast.emit('stats', data);
-  })
-});
-
-nextApp.prepare().then(() => {
-  app.get('/api/matches', (req, res) => res.json(matches));
-  app.get('/api/stats', (req, res) => getPlayerStats(res));
-
-  app.get('*', (req, res) => nextHandler(req, res));
-
-  server.listen(port, err => {
-    if (err) throw err;
-    console.log(`> Ready on http://localhost:${port}`);
-  });
-});
-
-const pollMatchApi = async socket => {
+const pollMatchApi = async (socket = null, res) => {
   const now = new Date();
   const minus5days = new Date();
   let prev = '';
@@ -67,9 +28,9 @@ const pollMatchApi = async socket => {
   } catch (error) {
     console.error(error);
   }
-  
+
   /* defaults */
-  const options = {
+  const tournamentOptions = {
     page: {
       offset: 0,
       limit: 10,
@@ -82,44 +43,45 @@ const pollMatchApi = async socket => {
       teamNames: [],
     },
   };
+  const options = {
+    page: {
+      offset: 0,
+      limit: 10,
+    },
+    sort: 'createdAt', // -createdAt for reverse
+    filter: {
+      gameMode: 'ranked',
+      'createdAt-start': prev, // ISO Date
+      'createdAt-end': now.toISOString(), // ISO Date
+      playerNames: [],
+      teamNames: [],
+    },
+  };
   try {
     const matchData = await vainglory.matches.collection(options);
+    const proMatchData = await vainglory.tournament
+      .region('na')
+      .matches.collection(tournamentOptions);
     if (matchData.errors) {
       throw Error(`Status: ${matchData.statusText}`);
     }
-    socket.broadcast.emit('newMatches', matchData.match);
+    const mergedResponse = {
+      matches: matchData.match,
+      proMatches: proMatchData.match,
+    };
 
+    if (socket) {
+      socket.broadcast.emit('newMatches', mergedResponse);
+    } else {
+      res.json(mergedResponse);
+    }
   } catch (error) {
     console.error(error);
   }
-}
+};
 
-const getPlayerStats = async res => {
-  const response = {
-    status: 200,
-    error: '',
-    body: '',
-  }
-
-  try {
-    const playerData = await vainglory.players.getByName(players);
-    if (playerData.errors) {
-      throw playerData.statusText;
-    }
-    
-    const playerStats = formatPlayers(playerData);
-    response.body = playerStats;
-    res.json(response);
-
-  } catch (error) {
-    response.status = 500;
-    response.error = error;
-    res.json(response);
-  }
-}
-
-const formatPlayers = ({ player }) => {
-  return player.map(p => ({
+const formatPlayers = ({ player }) =>
+  player.map(p => ({
     name: p.name,
     level: p.stats.level,
     karma: p.stats.karmaLevel,
@@ -137,4 +99,59 @@ const formatPlayers = ({ player }) => {
     winStreak: p.stats.winStreak,
     xp: p.stats.xp,
   }));
-}
+
+const getPlayerStats = async res => {
+  const response = {
+    status: 200,
+    error: '',
+    body: '',
+  };
+
+  try {
+    const playerData = await vainglory.players.getByName(players);
+    if (playerData.errors) {
+      throw playerData.statusText;
+    }
+
+    const playerStats = formatPlayers(playerData);
+    response.body = playerStats;
+    res.json(response);
+  } catch (error) {
+    response.status = 500;
+    response.error = error;
+    res.json(response);
+  }
+};
+
+// socket.io server
+io.on('connection', socket => {
+  setInterval(() => pollMatchApi(socket), 50000);
+
+  socket.on('region', data => {
+    region = data;
+    vainglory.setRegion(region);
+    socket.broadcast.emit('region', data);
+  });
+
+  socket.on('player', data => {
+    players.push(data);
+    socket.broadcast.emit('player', data);
+  });
+
+  socket.on('stats', data => {
+    stats = data;
+    socket.broadcast.emit('stats', data);
+  });
+});
+
+nextApp.prepare().then(() => {
+  app.get('/api/matches', (req, res) => pollMatchApi(null, res));
+  app.get('/api/stats', (req, res) => getPlayerStats(res));
+
+  app.get('*', (req, res) => nextHandler(req, res));
+
+  server.listen(port, err => {
+    if (err) throw err;
+    console.log(`> Ready on http://localhost:${port}`);
+  });
+});
