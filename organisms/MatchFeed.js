@@ -34,11 +34,9 @@ export default class MatchFeed extends React.Component {
         callback: () => this.setState({ toggle: !this.state.toggle }),
       },
     ];
-    return (
-      <div>
-        <TitleBar title="Match Stream" options={options} />
-        <div className="columns">
-          <div className="column is-multiline">
+    return [
+        <TitleBar title="Match Stream" options={options} key="title" />,
+        <Wrapper key="wrapper">
             {this.state.toggle &&
               this.props.matches.map(m => (
                 <Matches
@@ -59,10 +57,14 @@ export default class MatchFeed extends React.Component {
                   players={t.matchRoster}
                 />
               ))}
-          </div>
-        </div>
-        <p>Last Updated - {this.state.lastUpdate}</p>
-      </div>
-    );
+        </Wrapper>,
+        <p key="updated">Last Updated - {this.state.lastUpdate}</p>
+    ];
   }
 }
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+`;

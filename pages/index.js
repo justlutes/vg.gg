@@ -68,27 +68,23 @@ export default class Home extends React.Component {
     }
     return (
       <Landing>
-        <Hero className="hero is-fullheight">
-          <div className="hero-head">
-            <Navigation />
-          </div>
-          <div className="hero-body">
+        <Navigation />
+        <Hero className="container">
             <Wrapper>
-              <div className="container">
+              <div className="section">
                 <Search
                   handlePlayer={this.handlePlayer}
                   handleRegion={this.handleRegion}
                   handleSubmit={this.handleSubmit}
                 />
               </div>
-              <div className="container">
+              <div className="section">
                 <MatcheFeed
                   matches={this.state.matches.matches}
                   tournaments={this.state.matches.proMatches}
                 />
               </div>
             </Wrapper>
-          </div>
         </Hero>
       </Landing>
     );

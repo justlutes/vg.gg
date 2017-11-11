@@ -125,7 +125,7 @@ const getPlayerStats = async res => {
 
 // socket.io server
 io.on('connection', socket => {
-  setInterval(() => pollMatchApi(socket), 50000);
+  setInterval(() => pollMatchApi(socket), 100000);
 
   socket.on('region', data => {
     region = data;
