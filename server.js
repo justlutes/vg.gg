@@ -69,12 +69,9 @@ const pollMatchApi = async (socket = null, res) => {
       matches: matchData.match,
       proMatches: proMatchData.match,
     };
+    
+    socket.emit('matches', mergedResponse);
 
-    if (socket) {
-      socket.broadcast.emit('newMatches', mergedResponse);
-    } else {
-      res.json(mergedResponse);
-    }
   } catch (error) {
     console.error(error);
   }
@@ -123,29 +120,36 @@ const getPlayerStats = async res => {
   }
 };
 
+let interval;
+
 // socket.io server
 io.on('connection', socket => {
-  setInterval(() => pollMatchApi(socket), 100000);
+  if (interval) {
+    clearInterval(interval);
+  }
+
+  interval = setInterval(() => pollMatchApi(socket), 50000);
+
+  socket.on('initial', () => pollMatchApi(socket));
 
   socket.on('region', data => {
     region = data;
     vainglory.setRegion(region);
-    socket.broadcast.emit('region', data);
+    socket.emit('region', data);
   });
 
   socket.on('player', data => {
     players.push(data);
-    socket.broadcast.emit('player', data);
+    socket.emit('player', data);
   });
 
   socket.on('stats', data => {
     stats = data;
-    socket.broadcast.emit('stats', data);
+    socket.emit('stats', data);
   });
 });
 
 nextApp.prepare().then(() => {
-  app.get('/api/matches', (req, res) => pollMatchApi(null, res));
   app.get('/api/stats', (req, res) => getPlayerStats(res));
 
   app.get('*', (req, res) => nextHandler(req, res));

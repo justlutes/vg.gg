@@ -11,38 +11,32 @@ import Navigation from '../molecules/Navigation';
 import Search from '../molecules/Search';
 
 export default class Home extends React.Component {
-  static async getInitialProps() {
-    const response = await fetch('http://localhost:3000/api/matches');
-    const matches = await response.json();
-    return { matches };
-  }
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
 
     this.state = {
-      matches: props.matches,
+      matches: {},
       player: '',
-      loading: false,
+      loading: true,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleRegion = this.handleRegion.bind(this);
     this.handlePlayer = this.handlePlayer.bind(this);
-    this.updateMatches = this.updateMatches.bind(this);
   }
 
   componentDidMount() {
     this.socket = io();
-    this.socket.on('newMatches', this.updateMatches);
+    this.socket.emit('initial');
+    
+    this.socket.on('matches', matches => {
+      console.log('matches');
+      this.setState({ loading: false, matches })
+    });
   }
 
   componentWillUnmount() {
-    this.socket.off('newMatches', this.updateMatches);
+    this.socket.off('matches', matches => this.setState({ loading: false, matches }));
     this.socket.close();
-  }
-
-  updateMatches(matches) {
-    console.log('updated', matches);
-    this.setState(state => ({ matches: state.matches }));
   }
 
   handleRegion(region) {
@@ -63,9 +57,6 @@ export default class Home extends React.Component {
   }
 
   render() {
-    if (this.state.loading) {
-      return <Loading loading />;
-    }
     return (
       <Landing>
         <Navigation />
@@ -79,10 +70,13 @@ export default class Home extends React.Component {
                 />
               </div>
               <div className="section">
+              <Loading loading={this.state.loading} />
+              {Object.keys(this.state.matches).length &&
                 <MatcheFeed
                   matches={this.state.matches.matches}
                   tournaments={this.state.matches.proMatches}
                 />
+              }
               </div>
             </Wrapper>
         </Hero>
