@@ -14,7 +14,7 @@ const nextApp = next({ dev });
 const nextHandler = nextApp.getRequestHandler();
 
 let region = 'na';
-const players = [];
+let players = [];
 let stats = [];
 const vainglory = new VGAPI(process.env.API_KEY);
 
@@ -139,7 +139,7 @@ io.on('connection', socket => {
   });
 
   socket.on('player', data => {
-    players.push(data);
+    players = [data];
     socket.emit('player', data);
   });
 

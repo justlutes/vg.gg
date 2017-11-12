@@ -4,7 +4,7 @@ import styled from 'styled-components';
 export default ({ stats = [] }) => (
   <Inner>
     {stats.map(stat => (
-      <div>
+      <div key={stat.text}>
         <p>{stat.statistic}</p>
         <Stat>{stat.text}</Stat>
       </div>

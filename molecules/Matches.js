@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { Image } from 'cloudinary-react';
 
+import Team from '../atoms/Team';
+
 const formatTime = time => {
   if (time.length > 3) {
     return `${time.substr(0, 2)}:${time.substr(-2, 2)}`;
@@ -32,7 +34,7 @@ export default class Matches extends React.Component {
     const member = {};
 
     const player = {
-      id: rosterData.data.id,
+      id: rosterData.participantPlayer.data.id,
       result: playerData.won === 'true' ? 'Victory' : 'Loss',
       hero: rosterData.data.attributes.actor.replace(/[^\w\s]/gi, ''),
       kda: `${rosterData.data.attributes.stats.kills}/${rosterData.data
@@ -44,15 +46,15 @@ export default class Matches extends React.Component {
     };
     
     players.map((p, i) => {
-      const team = [];
+      let member = {};
       p.rosterParticipants.map((part, index) => {
         member[index] = {
+          id: part.participantPlayer.data.id,
           hero: part.data.attributes.actor.replace(/[^\w\s]/gi, ''),
           name: part.participantPlayer.data.attributes.name,
         };
-        team.push(member);
       });
-      teams[i] = team;
+      teams[i] = member;
     });
 
     this.setState({ player, teams });
@@ -97,7 +99,11 @@ export default class Matches extends React.Component {
             <span>Gold</span>
           </Stat>
         </Stats>
-        <div className="column is-3">Roster</div>
+        <Roster className="column is-3" teams={teams} featured={player.id}>
+            {teams.map((team, i) => (
+              <Team team={team} key={`roster${i}`} featured={player.id} />
+            ))}
+        </Roster>
       </Row>
     );
   }
@@ -150,6 +156,12 @@ const Time = styled.span`
 
 const Result = styled.span`
   color: ${props => (props.result === 'Victory' ? '#009624' : '#d50000')};
+`;
+
+const Roster = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 `;
 
 const Row = styled.div`

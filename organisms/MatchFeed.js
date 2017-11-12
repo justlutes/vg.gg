@@ -58,10 +58,18 @@ export default class MatchFeed extends React.Component {
                 />
               ))}
         </Wrapper>,
-        <p key="updated">Last Updated - {this.state.lastUpdate}</p>
+        <div className="section" key="updated">
+          <TimeStamp>Last Updated - {this.state.lastUpdate}</TimeStamp>
+        </div>
     ];
   }
 }
+
+const TimeStamp = styled.p`
+  color: #E9E9E9;
+  text-transform: uppercase;
+  font-size: 14px;
+`;
 
 const Wrapper = styled.div`
   display: flex;
