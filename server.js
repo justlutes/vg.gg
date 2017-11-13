@@ -52,7 +52,7 @@ const getPlayerMatches = async socket => {
   }
 };
 
-const pollMatchApi = async (socket = null) => {
+const pollMatchApi = async socket => {
   const now = new Date();
   const minus5days = new Date();
   let prev = '';

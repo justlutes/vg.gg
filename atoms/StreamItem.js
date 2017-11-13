@@ -6,46 +6,76 @@ export default ({
 }) => (
   <div className="column is-one-third">
     <a href={url} target="_blank">
-      <Card className="card">
-        <div className="card-image">
-          <Figure className="image is-16by9" thumbnail={thumbnail} />
-        </div>
-        <div className="card-content">
+      <Figure className="image is-16by9" thumbnail={thumbnail}>
+        <Content>
           <Title>{title}</Title>
           <Subtitle>
             {viewers} viewers on {name}
           </Subtitle>
-        </div>
-      </Card>
+        </Content>
+      </Figure>
     </a>
   </div>
 );
 
-const Card = styled.div`
-  box-shadow: 0 6px 37px -6px rgba(0, 0, 0, 0.2);
-  transition: 310ms ease-in-out;
-  border-radius: 25px;
-  padding: 50px 5% 50px 5%;
-  margin: 20px 1%;
+const Figure = styled.figure`
+  position: relative;
+  background: url(${props => props.thumbnail});
   &:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 37px -6px rgba(0, 0, 0, 0.6);
+    &::before {
+      left: -4%;
+      bottom: -15%;
+    }
+    &::after {
+      right: -9%;
+      top: -2%;
+    }
+  }
+  &::before {
+    content: url(/static/leftBracket.svg);
+    transition: all 222ms ease-in;
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    left: -2.5%;
+    bottom: -11%;
+  }
+  &::after {
+    content: url(/static/rightBracket.svg);
+    transition: all 222ms ease-in;
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    right: -7%;
+    top: 0;
   }
 `;
 
-const Figure = styled.figure`
-  background: url(${props => props.thumbnail});
-  border-radius: 5px;
+const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  background: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  opacity: 0;
+  padding: 20px;
+  transition: opacity 222ms ease-in-out;
+  ${Figure}:hover & {
+    opacity: 1;
+  }
 `;
 
 const Subtitle = styled.p`
-  color: #6a6a6a;
+  color: #fff;
   font-size: 14px;
+  margin-left: 15px;
 `;
 
 const Title = styled.h2`
   font-size: 18px;
-  margin-top: 15px;
+  color: #fff;
+  margin-left: 15px;
   font-weight: bold;
   white-space: nowrap;
   overflow: hidden;

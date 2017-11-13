@@ -1,0 +1,10 @@
+<svg width="34" height="30" viewBox="0 0 34 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="Canvas" transform="translate(-148 209)">
+<g id="Vector">
+<use xlink:href="#path0_stroke" transform="translate(148 -207)" fill="#F9C983"/>
+</g>
+</g>
+<defs>
+<path id="path0_stroke" d="M 32.5 0L 34 0L 34 -1.5L 32.5 -1.5L 32.5 0ZM 0 1.5L 32.5 1.5L 32.5 -1.5L 0 -1.5L 0 1.5ZM 31 0L 31 28L 34 28L 34 0L 31 0Z"/>
+</defs>
+</svg>
