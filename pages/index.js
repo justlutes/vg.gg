@@ -1,6 +1,5 @@
 import React from 'react';
 import io from 'socket.io-client';
-import fetch from 'isomorphic-unfetch';
 import styled from 'styled-components';
 import Router from 'next/router';
 
@@ -28,14 +27,13 @@ export default class Home extends React.Component {
     this.socket = io();
     this.socket.emit('initial');
 
-    this.socket.on('matches', matches => {
-      console.log('matches');
-      this.setState({ loading: false, matches })
-    });
+    this.socket.on('matches', matches =>
+      this.setState({ loading: false, matches }));
   }
 
   componentWillUnmount() {
-    this.socket.off('matches', matches => this.setState({ loading: false, matches }));
+    this.socket.off('matches', matches =>
+      this.setState({ loading: false, matches }));
     this.socket.close();
   }
 
@@ -62,24 +60,24 @@ export default class Home extends React.Component {
       <Landing>
         <Navigation />
         <Hero className="container">
-            <Wrapper>
-              <div className="section">
-                <Search
-                  handlePlayer={this.handlePlayer}
-                  handleRegion={this.handleRegion}
-                  handleSubmit={this.handleSubmit}
-                />
-              </div>
-              <div className="section">
+          <Wrapper>
+            <div className="section">
+              <Search
+                handlePlayer={this.handlePlayer}
+                handleRegion={this.handleRegion}
+                handleSubmit={this.handleSubmit}
+              />
+            </div>
+            <div className="section">
               <Loading loading={this.state.loading} />
-              {Object.keys(this.state.matches).length &&
+              {Object.keys(this.state.matches).length && (
                 <MatcheFeed
                   matches={this.state.matches.matches}
                   tournaments={this.state.matches.proMatches}
                 />
-              }
-              </div>
-            </Wrapper>
+              )}
+            </div>
+          </Wrapper>
         </Hero>
       </Landing>
     );

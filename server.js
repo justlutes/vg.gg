@@ -28,7 +28,7 @@ const getPlayerMatches = async socket => {
   } catch (error) {
     console.error(error);
   }
-  
+
   const options = {
     page: {
       offset: 0,
@@ -47,13 +47,12 @@ const getPlayerMatches = async socket => {
       throw Error(`Status: ${matchData.statusText}`);
     }
     socket.emit('player_matches', matchData.match);
-
   } catch (error) {
     console.error(error);
   }
-}
+};
 
-const pollMatchApi = async (socket = null, res) => {
+const pollMatchApi = async (socket = null) => {
   const now = new Date();
   const minus5days = new Date();
   let prev = '';
@@ -104,9 +103,7 @@ const pollMatchApi = async (socket = null, res) => {
       matches: matchData.match,
       proMatches: proMatchData.match,
     };
-    
     socket.emit('matches', mergedResponse);
-
   } catch (error) {
     console.error(error);
   }
@@ -145,7 +142,7 @@ const getPlayerStats = async res => {
     if (playerData.errors) {
       throw playerData.statusText;
     }
-    
+
     const playerStats = formatPlayers(playerData);
     response.body = playerStats;
     res.json(response);
