@@ -18,6 +18,41 @@ let players = [];
 let stats = [];
 const vainglory = new VGAPI(process.env.API_KEY);
 
+const getPlayerMatches = async socket => {
+  const now = new Date();
+  const minus5days = new Date();
+  let prev = '';
+  try {
+    minus5days.setDate(now.getDate() - 10);
+    prev = minus5days.toISOString();
+  } catch (error) {
+    console.error(error);
+  }
+  
+  const options = {
+    page: {
+      offset: 0,
+      limit: 30,
+    },
+    sort: 'createdAt', // -createdAt for reverse
+    filter: {
+      'createdAt-start': prev, // ISO Date
+      'createdAt-end': now.toISOString(), // ISO Date
+      playerNames: players,
+    },
+  };
+  try {
+    const matchData = await vainglory.matches.collection(options);
+    if (matchData.errors) {
+      throw Error(`Status: ${matchData.statusText}`);
+    }
+    socket.emit('player_matches', matchData.match);
+
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 const pollMatchApi = async (socket = null, res) => {
   const now = new Date();
   const minus5days = new Date();
@@ -79,6 +114,7 @@ const pollMatchApi = async (socket = null, res) => {
 
 const formatPlayers = ({ player }) =>
   player.map(p => ({
+    id: p.id,
     name: p.name,
     level: p.stats.level,
     karma: p.stats.karmaLevel,
@@ -109,7 +145,7 @@ const getPlayerStats = async res => {
     if (playerData.errors) {
       throw playerData.statusText;
     }
-
+    
     const playerStats = formatPlayers(playerData);
     response.body = playerStats;
     res.json(response);
@@ -142,6 +178,8 @@ io.on('connection', socket => {
     players = [data];
     socket.emit('player', data);
   });
+
+  socket.on('player_matches', () => getPlayerMatches(socket));
 
   socket.on('stats', data => {
     stats = data;

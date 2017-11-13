@@ -60,7 +60,7 @@ export default class Matches extends React.Component {
     this.setState({ player, teams });
   }
   render() {
-    const { duration, patch, mode } = this.props;
+    const { featuredId, duration, patch, mode } = this.props;
     const { player, teams } = this.state;
 
     return (
@@ -101,7 +101,7 @@ export default class Matches extends React.Component {
         </Stats>
         <Roster className="column is-3" teams={teams} featured={player.id}>
             {teams.map((team, i) => (
-              <Team team={team} key={`roster${i}`} featured={player.id} />
+              <Team team={team} key={`roster${i}`} featured={featuredId ? featuredId : player.id} />
             ))}
         </Roster>
       </Row>

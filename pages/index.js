@@ -27,7 +27,7 @@ export default class Home extends React.Component {
   componentDidMount() {
     this.socket = io();
     this.socket.emit('initial');
-    
+
     this.socket.on('matches', matches => {
       console.log('matches');
       this.setState({ loading: false, matches })
@@ -52,6 +52,7 @@ export default class Home extends React.Component {
     this.socket.emit('player', this.state.player);
     Router.push({
       pathname: '/stats',
+      query: { player: this.state.player },
     });
     Router.onRouteChangeStart = () => this.setState({ loading: true });
   }

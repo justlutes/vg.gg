@@ -13,6 +13,7 @@ export default class Team extends React.Component {
         this.socket.emit('player', name);
         Router.push({
             pathname: '/stats',
+            query: { player: name },
         });
     }
     render() {
