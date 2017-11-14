@@ -7,8 +7,8 @@ import Layout from '../layouts/Main';
 import PlayerStats from '../organisms/PlayerStats';
 
 export default class Stats extends React.Component {
-  static async getInitialProps({ req }) {
-    const response = await fetch('http://localhost:3000/api/stats')
+  static async getInitialProps() {
+    const response = await fetch('http://localhost:3000/api/stats');
     const stats = await response.json();
     return { stats };
   }
@@ -17,22 +17,22 @@ export default class Stats extends React.Component {
 
     this.state = {
       stats: props.stats,
-    }
+    };
   }
 
-  componentDidMount () {
-    this.socket = io()
-    this.socket.on('stats', this.handleStats)
+  componentDidMount() {
+    this.socket = io();
+    this.socket.on('stats', this.handleStats);
   }
 
-  componentWillUnmount () {
-    this.socket.off('stats', this.handleStats)
-    this.socket.close()
+  componentWillUnmount() {
+    this.socket.off('stats', this.handleStats);
+    this.socket.close();
   }
 
-  handleStats = (stats) => {
-    this.setState(state => ({ stats: state.stats.body }))
-  }
+  handleStats = stats => {
+    this.setState(state => ({ stats: state.stats.body }));
+  };
 
   renderChildren = () => {
     if (this.props.stats.status !== 200) {
@@ -42,22 +42,18 @@ export default class Stats extends React.Component {
             <div className="column is-half has-text-centered">
               <h1 className="has-text-white">Oops!</h1>
               <p className="has-text-grey-light">{this.state.stats.error}</p>
-              <Link href="/"><a>Back</a></Link>
+              <Link href="/">
+                <a>Back</a>
+              </Link>
             </div>
           </div>
         </div>
-      )
+      );
     }
-    return (
-      <PlayerStats stats={this.state.stats.body} />
-    )
-  }
+    return <PlayerStats stats={this.state.stats.body} />;
+  };
 
   render() {
-    return (
-        <Layout>
-          {this.renderChildren()}
-        </Layout>
-    );
+    return <Layout>{this.renderChildren()}</Layout>;
   }
 }

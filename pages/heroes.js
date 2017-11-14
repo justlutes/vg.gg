@@ -1,14 +1,12 @@
-import React from "react";
-import { Provider } from "mobx-react";
-import store from "../store";
+import React from 'react';
 
-import Layout from "../layouts/Main";
-import ShardList from "../organisms/ShardList";
+import Layout from '../layouts/Main';
+import PageTitle from '../atoms/PageTitle';
 
 export default () => (
-  <Provider {...store}>
-    <Layout>
-      <h2>Heroes</h2>
-    </Layout>
-  </Provider>
+  <Layout>
+    <div className="section">
+      <PageTitle title="Heroes" />
+    </div>
+  </Layout>
 );

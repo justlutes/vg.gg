@@ -15,7 +15,7 @@ class Navigation extends React.Component {
   }
   render() {
     return (
-      <nav className="navbar" role="navigation" aria-label="main navigation">
+      <nav className="navbar" aria-label="main navigation">
         <div className="navbar-brand">
           <Link prefetch href="/">
             <HomeLink className="navbar-item">
