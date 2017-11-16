@@ -35,38 +35,38 @@ export default class MatchFeed extends React.Component {
       },
     ];
     return [
-        <TitleBar title="Match Stream" options={options} key="title" />,
-        <Wrapper key="wrapper">
-            {this.state.toggle &&
-              this.props.matches.map(m => (
-                <Matches
-                  key={m.data.id}
-                  duration={m.data.attributes.duration}
-                  mode={m.data.attributes.gameMode}
-                  patch={m.data.attributes.patchVersion}
-                  players={m.matchRoster}
-                />
-              ))}
-            {!this.state.toggle &&
-              this.props.tournaments.map(t => (
-                <Matches
-                  key={t.data.id}
-                  duration={t.data.attributes.duration}
-                  mode={t.data.attributes.gameMode}
-                  patch={t.data.attributes.patchVersion}
-                  players={t.matchRoster}
-                />
-              ))}
-        </Wrapper>,
-        <div className="section" key="updated">
-          <TimeStamp>Last Updated - {this.state.lastUpdate}</TimeStamp>
-        </div>
+      <TitleBar title="Match Stream" options={options} key="title" />,
+      <Wrapper key="wrapper">
+        {this.state.toggle &&
+          this.props.matches.map(m => (
+            <Matches
+              key={m.data.id}
+              duration={m.data.attributes.duration}
+              mode={m.data.attributes.gameMode}
+              patch={m.data.attributes.patchVersion}
+              players={m.matchRoster}
+            />
+          ))}
+        {!this.state.toggle &&
+          this.props.tournaments.map(t => (
+            <Matches
+              key={t.data.id}
+              duration={t.data.attributes.duration}
+              mode={t.data.attributes.gameMode}
+              patch={t.data.attributes.patchVersion}
+              players={t.matchRoster}
+            />
+          ))}
+      </Wrapper>,
+      <div className="section" key="updated">
+        <TimeStamp>Last Updated - {this.state.lastUpdate}</TimeStamp>
+      </div>,
     ];
   }
 }
 
 const TimeStamp = styled.p`
-  color: #E9E9E9;
+  color: #e9e9e9;
   text-transform: uppercase;
   font-size: 14px;
 `;

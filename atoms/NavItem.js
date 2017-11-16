@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import Link from "next/link";
+import React from 'react';
+import styled from 'styled-components';
+import Link from 'next/link';
 
 export default ({ active, link, text = link }) => (
   <Item className="navbar-item" active={active}>
@@ -12,7 +12,8 @@ export default ({ active, link, text = link }) => (
 
 const Item = styled.div`
   cursor: pointer;
-  border-bottom: ${props => (props.active ? "4px solid #F9C983" : "4px solid transparent")};
+  border-bottom: ${props =>
+    (props.active ? '4px solid #F9C983' : '4px solid transparent')};
   &:hover {
     background: rgba(0, 0, 0, 0.075);
   }

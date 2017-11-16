@@ -25,7 +25,8 @@ export default class PlayerStats extends React.Component {
   }
   componentDidMount() {
     this.socket = io();
-    this.socket.on('player_matches', matches => this.setState({ matches, loading: false, card: 'match' }));
+    this.socket.on('player_matches', matches =>
+      this.setState({ matches, loading: false, card: 'match' }));
   }
 
   getMatches = () => this.socket.emit('player_matches');
@@ -33,32 +34,23 @@ export default class PlayerStats extends React.Component {
   renderCards = () => {
     const { matches, card, players } = this.state;
     if (matches.length && card === 'match') {
-        return (
-          this.state.matches.map(match => (
-            <Matches
-              key={match.data.id}
-              featuredId={this.state.players[0].id}
-              duration={match.data.attributes.duration}
-              mode={match.data.attributes.gameMode}
-              patch={match.data.attributes.patchVersion}
-              players={match.matchRoster}
-            />
-          ))
-        )
+      return this.state.matches.map(match => (
+        <Matches
+          key={match.data.id}
+          featuredId={this.state.players[0].id}
+          duration={match.data.attributes.duration}
+          mode={match.data.attributes.gameMode}
+          patch={match.data.attributes.patchVersion}
+          players={match.matchRoster}
+        />
+      ));
     } else if (players.length && card === 'player') {
-        return (
-          this.state.players.map(player => (
-            <PlayerCard
-              key={player.name}
-              {...player}
-              region={this.props.region}
-            />
-          ))
-        )
-    } else {
-      return null;
+      return this.state.players.map(player => (
+        <PlayerCard key={player.name} {...player} region={this.props.region} />
+      ));
     }
-  }
+    return null;
+  };
 
   render() {
     const options = [

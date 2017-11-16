@@ -1,10 +1,10 @@
-import React from "react";
-import Head from "next/head";
-import Footer from "../molecules/Footer";
-import Navigation from "../molecules/Navigation";
-import Wrapper from "./Wrapper";
+import React from 'react';
+import Head from 'next/head';
+import Footer from '../molecules/Footer';
+import Navigation from '../molecules/Navigation';
+import Wrapper from './Wrapper';
 
-export default ({ children, title = "VG.GG" }) => (
+export default ({ children, title = 'VG.GG' }) => (
   <Wrapper>
     <Head>
       <title>{title}</title>
