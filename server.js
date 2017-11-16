@@ -161,7 +161,7 @@ io.on('connection', socket => {
     clearInterval(interval);
   }
 
-  interval = setInterval(() => pollMatchApi(socket), 50000);
+  interval = setInterval(() => pollMatchApi(socket), 1000 * 60);
 
   socket.on('initial', () => pollMatchApi(socket));
 
