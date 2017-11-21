@@ -6,6 +6,7 @@ export default class ResultItem extends React.Component {
   handleClick = () => {
     Router.push({
       pathname: '/items',
+      asPath: `/items/${this.props.item}`,
       query: { item: this.props.item },
     });
   };

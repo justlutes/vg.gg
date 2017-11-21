@@ -26,7 +26,7 @@ const StreamPage = ({ streams }) => (
   </Layout>
 );
 
-StreamPage.getInitialProps = async ({ req }) => {
+StreamPage.getInitialProps = async () => {
   const streams = await TWITCHAPI.getStreams();
   return { streams };
 };

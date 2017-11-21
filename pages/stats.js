@@ -8,7 +8,11 @@ import PlayerStats from '../organisms/PlayerStats';
 
 export default class Stats extends React.Component {
   static async getInitialProps() {
-    const response = await fetch('http://localhost:3000/api/stats');
+    const url =
+      process.env.NODE_ENV !== 'production'
+        ? 'http://localhost:3000/api/stats'
+        : process.env.NOW_URL;
+    const response = await fetch(url);
     const stats = await response.json();
     return { stats };
   }

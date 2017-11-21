@@ -60,6 +60,7 @@ export default class Home extends React.Component {
     this.socket.emit('player', this.state.player);
     Router.push({
       pathname: '/stats',
+      asPath: `/stats/${this.state.player}`,
       query: { player: this.state.player },
     });
     Router.onRouteChangeStart = () => this.setState({ loading: true });

@@ -6,6 +6,7 @@ export default class ResultHero extends React.Component {
   handleClick = () => {
     Router.push({
       pathname: '/heroes',
+      asPath: `/heroes/${this.props.item}`,
       query: { hero: this.props.item },
     });
   };
