@@ -28,14 +28,14 @@ export default class MatchFeed extends React.Component {
     this.setState({ lastUpdate });
   }
   render() {
-    const options = [
+    const titleOptions = [
       {
         text: this.state.toggle ? 'Pro Matches' : 'Matches',
         callback: () => this.setState({ toggle: !this.state.toggle }),
       },
     ];
     return [
-      <TitleBar title="Match Stream" options={options} key="title" />,
+      <TitleBar title="Match Stream" options={titleOptions} key="title" />,
       <Wrapper key="wrapper">
         {this.state.toggle &&
           this.props.matches.map(m => (

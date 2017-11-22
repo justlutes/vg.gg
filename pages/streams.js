@@ -6,7 +6,7 @@ import Layout from '../layouts/Main';
 import PageTitle from '../atoms/PageTitle';
 import StreamItem from '../atoms/StreamItem';
 
-const StreamPage = ({ streams }) => (
+const StreamPage = ({ streams = [] }) => (
   <Layout>
     <div className="section">
       <PageTitle title="Current Vainglory Streams" />

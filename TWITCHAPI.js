@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-// import { TWITCH_KEY } from './config';
-
 const baseURL = 'https://api.twitch.tv/kraken/streams/?game=Vainglory&limit=9';
 
 class TWITCHAPI {
@@ -14,12 +12,13 @@ class TWITCHAPI {
   }
 
   transformConfig(config = {}) {
-    config.headers = Object.assign(config.headers || {}, {
+    const newConfig = config;
+    newConfig.headers = Object.assign(newConfig.headers || {}, {
       'Client-ID': process.env.TWITCH_KEY,
       Accept: 'application/json',
     });
 
-    return config;
+    return newConfig;
   }
 
   get(path, config) {
