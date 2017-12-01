@@ -11,7 +11,7 @@ export default class Stats extends React.Component {
     const url =
       process.env.NODE_ENV !== 'production'
         ? 'http://localhost:3000/api/stats'
-        : process.env.NOW_URL;
+        : `${process.env.NOW_URL}/api/stats`;
     const response = await fetch(url);
     const stats = await response.json();
     return { stats };
