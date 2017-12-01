@@ -35,8 +35,10 @@ export default class Home extends React.Component {
     this.socket = io();
     this.socket.emit('initial');
 
-    this.socket.on('matches', matches =>
-      this.setState({ loading: false, matches }));
+    this.socket.on('matches', matches => {
+      console.log('updated matches');
+      this.setState({ loading: false, matches });
+    });
   }
 
   componentWillUnmount() {
@@ -107,7 +109,7 @@ export default class Home extends React.Component {
               {Object.keys(this.state.matches).length ? (
                 <MatcheFeed
                   matches={this.state.matches.matches}
-                  tournaments={this.state.matches.proMatches}
+                  tournaments={this.state.matches.proMatches || []}
                 />
               ) : null}
             </div>

@@ -47,7 +47,7 @@ export default class Stats extends React.Component {
               <h1 className="has-text-white">Oops!</h1>
               <p className="has-text-grey-light">{this.state.stats.error}</p>
               <Link href="/">
-                <a>Back</a>
+                <span>Back</span>
               </Link>
             </div>
           </div>

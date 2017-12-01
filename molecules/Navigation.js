@@ -51,10 +51,6 @@ class Navigation extends React.Component {
               active={this.props.router.pathname === '/items'}
             />
             <NavItem
-              link="tournaments"
-              active={this.props.router.pathname === '/tournaments'}
-            />
-            <NavItem
               link="streams"
               active={this.props.router.pathname === '/streams'}
             />
