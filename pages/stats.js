@@ -9,9 +9,9 @@ import PlayerStats from '../organisms/PlayerStats';
 export default class Stats extends React.Component {
   static async getInitialProps() {
     const url =
-      process.env.NODE_ENV !== 'production'
+      process.env.NODE_ENV === 'dev'
         ? 'http://localhost:3000/api/stats'
-        : `${process.env.NOW_URL}/api/stats`;
+        : '/api/stats';
     const response = await fetch(url);
     const stats = await response.json();
     return { stats };
@@ -35,7 +35,7 @@ export default class Stats extends React.Component {
   }
 
   handleStats = stats => {
-    this.setState(state => ({ stats: state.stats.body }));
+    this.setState({ stats: stats.body });
   };
 
   renderChildren = () => {

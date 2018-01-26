@@ -1,11 +1,11 @@
 {
   "name": "vainglory-site",
   "version": "1.0.0",
-  "description": "Fan site consuming Vainglory API using react and mobx.",
+  "description": "Fan site consuming Vainglory API using NextJS and Socket.io.",
   "scripts": {
-    "dev": "node server.js",
+    "dev": "NODE_ENV=dev node server.js",
     "build": "next build",
-    "start": "NODE_ENV=production node server.js",
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Kyle Lutes",

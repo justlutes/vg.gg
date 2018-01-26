@@ -42,7 +42,7 @@ class TWITCHAPI {
       return formattedStreams;
     } catch (error) {
       console.error(error);
-      return false;
+      return [];
     }
   }
 }

@@ -4,12 +4,12 @@ const io = require('socket.io')(server);
 const next = require('next');
 const VGAPI = require('vainglory');
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV === 'dev') {
   // eslint-disable-next-line
   require('dotenv').load();
 }
 const port = parseInt(process.env.PORT, 10) || 3000;
-const dev = process.env.NODE_ENV !== 'production';
+const dev = process.env.NODE_ENV === 'dev';
 const nextApp = next({ dev });
 const nextHandler = nextApp.getRequestHandler();
 
@@ -191,6 +191,6 @@ nextApp.prepare().then(() => {
 
   server.listen(port, err => {
     if (err) throw err;
-    console.log(`> Ready on http://localhost:${port}`);
+    console.log(`> Ready on ${port}`);
   });
 });
